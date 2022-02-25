@@ -1081,22 +1081,22 @@
 					    // document.getElementById("your-doges-array").innerHTML += "<img class='unstaked-doges' src="+dogeImage+" alt='doge-img' />";
                     } 
 
-                    var stakedDogeArray = await stakeContract.methods.stakedTokensOfOwner(ADDRESS, account).call();
-                    var stakedDogeBalance = stakedDogeArray.length;
-                    document.getElementById("staked-number").textContent = stakedDogeBalance;
-                    for(let i=0; i < stakedDogeBalance; i++) {
-                        var stakedDogeId = stakedDogeArray[i];
-						var stardIdNum = "stard" + i;
-                        // var stakedDogeUri = await contract.methods.tokenURI(stakedDogeId).call();
-						document.getElementById("staked-doges-array").innerHTML += "<div class='doge-card'><img class='unstaked-doges' src='unrevealed_doge.jpg' alt='doge-img' /><p class='doge-id'>DOGE ID: <span class='green-text'>&nbsp;"+stakedDogeId+"</span></p><button id='"+stakedDogeId+"' class='stake-btn' onclick='unstakeFunc(this.id)'>CHOOSE</button><p class='doge-id'>STARD: <span id='"+stardIdNum+"' class='green-text'></span></p></div>";
-                        var stakeTime = await stakeContract.methods.stakedTokenTimestamp(ADDRESS, stakedDogeId).call();
-						var stakePeriod = (Date.now()/1000 - stakeTime)/60/60/24;
-						document.getElementById(stardIdNum).textContent = Math.floor(stakePeriod) * 3;
-						// var response = await axios.get(stakedDogeUri);
-                        // var stakedDogeImage = response.data.image;
-					    // stakedDogeImage = stakedDogeImage.replace("ipfs://", "https://gateway.pinata.cloud/ipfs/")
-					    // document.getElementById("staked-doges-array").innerHTML += "<img class='unstaked-doges staked-doges' src="+stakedDogeImage+" alt='doge-img' />";
-                    } 			
+                    var unstakedDogeBalance = await contract.methods.balanceOf(account).call();
+                    document.getElementById("unstaked-number").textContent = unstakedDogeBalance;
+					var totalSupply = await contract.methods.totalSupply().call()
+                    for(let i=0; i < totalSupply; i++) {
+						if(await contract.methods.ownerOf(i).call() == account){
+							var dogeId = i;
+							document.getElementById("your-doges-array").innerHTML += "<div class='doge-card'><img class='unstaked-doges' src='unrevealed_doge.jpg' alt='doge-img' /><p class='doge-id'>DOGE ID: <span class='green-text'>&nbsp;"+dogeId+"</span></p><button id='"+dogeId+"' class='stake-btn' onclick='stakeFunc(this.id)'>CHOOSE</button></div>";
+
+						}
+                        
+                        // var dogeUri = await contract.methods.tokenURI(dogeId).call();
+                        // var response = await axios.get(dogeUri);
+                        // var dogeImage = response.data.image;
+					    // dogeImage = dogeImage.replace("ipfs://", "https://gateway.pinata.cloud/ipfs/")
+					    // document.getElementById("your-doges-array").innerHTML += "<img class='unstaked-doges' src="+dogeImage+" alt='doge-img' />";
+                    } 		
 
                    
 
