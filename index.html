@@ -1083,7 +1083,7 @@
 
                     var stakedDogeArray = await stakeContract.methods.stakedTokensOfOwner(ADDRESS, account).call();
                     var stakedDogeBalance = stakedDogeArray.length;
-                    document.getElementById("staked-number").textContent = await stakeContract.methods.owner().call();
+                    document.getElementById("staked-number").textContent = stakedDogeBalance;
                     for(let i=0; i < stakedDogeBalance; i++) {
                         var stakedDogeId = stakedDogeArray[i];
 						var stardIdNum = "stard" + i;
